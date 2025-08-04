@@ -10,16 +10,20 @@ declare global {
 
 const App: React.FC = () => {
   useEffect(() => {
-    // Initialize Wistia queue
-    window._wq = window._wq || [];
-    
     // Ensure Wistia scripts are loaded
-    if (!window.Wistia) {
-      const script = document.createElement("script");
-      script.src = "https://fast.wistia.com/assets/external/E-v1.js";
-      script.async = true;
-      document.head.appendChild(script);
-    }
+    const loadWistia = () => {
+      if (!document.querySelector('script[src*="wistia.com/assets/external/E-v1.js"]')) {
+        const script = document.createElement("script");
+        script.src = "https://fast.wistia.com/assets/external/E-v1.js";
+        script.async = true;
+        document.head.appendChild(script);
+      }
+    };
+
+    loadWistia();
+
+    // Initialize Wistia queue if not exists
+    window._wq = window._wq || [];
   }, []);
 
   const handleCTAClick = () => {
@@ -57,12 +61,13 @@ const App: React.FC = () => {
           {/* Wistia Video Player */}
           <div className="max-w-4xl mx-auto mb-12">
             <div className="relative bg-black rounded-2xl overflow-hidden shadow-2xl">
-              <div className="wistia_responsive_padding" style={{ paddingTop: '56.25%', position: 'relative' }}>
+              <div className="wistia_responsive_padding" style={{ paddingTop: '56.25%' }}>
                 <div className="wistia_responsive_wrapper" style={{ height: '100%', left: 0, position: 'absolute', top: 0, width: '100%' }}>
-                  <div className="wistia_embed wistia_async_gc9ywrd50y videoFoam=true" style={{ height: '100%', position: 'relative', width: '100%' }}>
-                    <div className="wistia_swatch" style={{ height: '100%', left: 0, opacity: 0, overflow: 'hidden', position: 'absolute', top: 0, transition: 'opacity 200ms', width: '100%' }}>
-                      <img src="https://fast.wistia.com/embed/medias/gc9ywrd50y/swatch" style={{ filter: 'blur(5px)', height: '100%', objectFit: 'contain', width: '100%' }} alt="" aria-hidden="true" />
-                    </div>
+                  <div 
+                    className="wistia_embed wistia_async_gc9ywrd50y videoFoam=true" 
+                    style={{ height: '100%', position: 'relative', width: '100%' }}
+                  >
+                    &nbsp;
                   </div>
                 </div>
               </div>
